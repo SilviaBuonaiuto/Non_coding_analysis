@@ -20,7 +20,7 @@ output_file.chr$c.tsv ; \
 done
 ```
 #### 3. Count rare and common variants in windows
-Extract info from vcf in tsv format
+- Extract info from vcf in tsv format
 ```
 mkdir common
 mkdir rare
@@ -49,7 +49,7 @@ bcftools query -f'[%CHROM\t%POS\t%POS\t%REF\t%ALT\t%VRT\t%AN\t%AC\t%AF\t%Het\t%H
 done
 ```
 
-Create bed file with rare/common variants positions
+- Create bed file with rare/common variants positions
 ```
 for c in $(seq 1 22); do \
 for freq in rare common; do \
@@ -58,7 +58,7 @@ $freq/chr$c.$freq.bed; \
 done; \
 done
 ```
-Intersect bed file containing windows with the one containing rare/common variants
+- Intersect bed file containing windows with the one containing rare/common variants
 
 ```
 for c in $(seq 1 22); do \
@@ -83,7 +83,7 @@ bedtools getfasta \
 -fo hg38.chr$c.accessible.window_size.fa ; \
 done
 ```
--Count nucleotides in each window and write table
+- Count nucleotides in each window and write table
 
 ```
 for c in $(seq 1 22); do \
