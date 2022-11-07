@@ -71,7 +71,7 @@ $freq/chr$c.$freq.count; \
 done; \
 done
 ```
-#### 4. fasta analysis (bedtools getfasta and fastaAnalysis.py)
+#### 4. Use reference fasta file to count the number of nucleotides per window
 - Download reference genome
 - Split fasta file for each chromosome
 
