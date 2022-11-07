@@ -10,7 +10,7 @@ cat 20160622.allChr.mask.bed | \
 grep "chr$c" > chr$c.accessible.bed; \
 done 
 ```
-#### 2. Create bed file with windows of the desired length
+#### 2. Create bed file with windows of the desired length (https://github.com/SilviaBuonaiuto/Non_coding_analysis/tree/main/scripts/create_windows.R)
 ```
 for c in $(seq 1 22); do \
 Rscript create_windows.R chr$c.accessible.bed \
@@ -83,7 +83,7 @@ bedtools getfasta \
 -fo hg38.chr$c.accessible.window_size.fa ; \
 done
 ```
-- Count nucleotides in each window and write table
+- Count nucleotides in each window and write table (https://github.com/SilviaBuonaiuto/Non_coding_analysis/tree/main/scripts/fastaAnalysis.py)
 
 ```
 for c in $(seq 1 22); do \
@@ -93,7 +93,7 @@ python3 fastaAnalysis.py \
 done 
 ```
 
-#### 5. Calculate probability of finding windows with excess of rare variants with binomial distribution and compare observed and expected models 
+#### 5. Calculate probability of finding windows with excess of rare variants with binomial distribution and compare observed and expected models (https://github.com/SilviaBuonaiuto/Non_coding_analysis/tree/main/scripts/nonCoding_plots.R)
 
 ```
 paste -d'\n' chromosomes.txt colors.txt | \
