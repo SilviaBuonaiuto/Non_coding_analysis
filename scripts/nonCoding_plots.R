@@ -48,7 +48,7 @@ numC = rbinom(nrow(final), as.numeric(window_size), .3)
 numG = rbinom(nrow(final), as.numeric(window_size), .3)
 numT = rbinom(nrow(final), as.numeric(window_size), .2)
 numCG = rbinom(nrow(final), as.numeric(window_size), .1)
-Y2 = rbinom(nrow(final), as.numeric(window_size), (.3*numA+.25*numC+.24*numG+.3*numT+.25*numCG)/1000)
+Y2 = rbinom(nrow(final), as.numeric(window_size), (.1*numA+.2*numC+.3*numG+.15*numT+.25*numCG)/100)
 lmExp = lm(Y2 ~ numA+numC+numG+numCG)
 modExp = lmExp$coefficients[1]+lmExp$coefficients[2]*numA+lmExp$coefficients[3]*numC+lmExp$coefficients[4]*numG+lmExp$coefficients[5]*numCG
 
