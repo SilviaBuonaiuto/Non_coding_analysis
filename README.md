@@ -98,10 +98,23 @@ done
 ```
 paste -d'\n' chromosomes.txt colors.txt | \
 while read f1 && read f2; do \
-Rscript nonCoding_plots.R \
+Rscript pbinom.R \
 $f1.common.count \
 $f1.rare.count \
 hg38.$f1.nucleotides.tsv \
+$f1.complete_table.tsv
+window_size (number) \
+$f2 \
+$f1.window_size
+```
+
+#### 6. Calculate probability of finding windows with excess of rare variants with G test on observed/expected data (https://github.com/SilviaBuonaiuto/Non_coding_analysis/blob/main/scripts/gtest.R)
+
+```
+paste -d'\n' chromosomes.txt colors.txt | \
+while read f1 && read f2; do \
+Rscript gtest.R
+$f1.complete_table.tsv
 window_size (number) \
 $f2 \
 $f1.window_size
