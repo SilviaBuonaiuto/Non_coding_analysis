@@ -3,7 +3,7 @@ library(dplyr)
 library(ggplot2)
 library(ggrepel)
 library(magrittr)
-library(DescTools)
+
 
 args = commandArgs(trailingOnly=TRUE)
 if (length(args)==0) {
@@ -37,26 +37,6 @@ all %>% mutate(pbinom = pbinom(rareCounts, rareCounts + commonCounts, as.numeric
 ggsave(paste(args[7], "pbinom.png", sep = "."), width = 14, heigh = 4) 
 #create table containing windows with excess of rare variants
 all %>% mutate(pbinom = pbinom(rareCounts, rareCounts + commonCounts, as.numeric(rareProb))) %>% mutate(log1pbinom = -log10(1-pbinom)) %>% filter(pbinom != 1) %>% filter(log1pbinom > 4) %>% write.table(paste(args[7], "tsv", sep = "."), sep = "\t",quote = F, col.names=T, row.names=F)
-
-#Linear regression of observed data
-lmObs<-lm(rareCounts~ A+C+G+CG , data = final)
-modObs = lmObs$coefficients[1]+lmObs$coefficients[2]*final$A+lmObs$coefficients[3]*final$C+lmObs$coefficients[4]*final$G+lmObs$coefficients[5]*final$CG
-
-#Simulation of expected data and linear regression
-numA = rbinom(nrow(final), as.numeric(window_size), .2)
-numC = rbinom(nrow(final), as.numeric(window_size), .3)
-numG = rbinom(nrow(final), as.numeric(window_size), .3)
-numT = rbinom(nrow(final), as.numeric(window_size), .2)
-numCG = rbinom(nrow(final), as.numeric(window_size), .1)
-Y2 = rbinom(nrow(final), as.numeric(window_size), (.1*numA+.2*numC+.3*numG+.15*numT+.25*numCG)/100)
-lmExp = lm(Y2 ~ numA+numC+numG+numCG)
-modExp = lmExp$coefficients[1]+lmExp$coefficients[2]*numA+lmExp$coefficients[3]*numC+lmExp$coefficients[4]*numG+lmExp$coefficients[5]*numCG
-
-#Gtest to compare observed and expected and plot
-final %>% mutate(normO = (modObs-min(modObs))/(max(modObs)-min(modObs)), normE = (modExp-min(modExp))/(max(modExp)-min(modExp))) %>% rowwise() %>% mutate(gtest = GTest(cbind(normO, normE))$p.value) %>% ggplot(aes(start, -log10(gtest))) + geom_point() + theme_bw() + ylab("-log10(p-value)")
-ggsave(paste(args[7], "gtest.png", sep = "."), width = 10, heigh = 4)
-
-
 
 
 
