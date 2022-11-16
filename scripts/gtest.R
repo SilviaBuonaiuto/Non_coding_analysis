@@ -12,7 +12,7 @@ final<-read.table(args[1], sep = "\t", header = T)
 window_size = args[2]
 window_size = as.numeric(window_size)
 Y2 = rbinom(nrow(final), window_size, (final$A/window_size+final$C/window_size+final$T/window_size+final$G/window_size+final$CG/window_size)/100)
-lmExp = lm(Y2 ~ final$A+final$C+final$T+final$G+final$CG)
+lmExp = lm(Y2 ~ final$A+final$C+final$G+final$CG)
 modExp = lmExp$coefficients[1]+lmExp$coefficients[2]*final$A+lmExp$coefficients[3]*final$C+lmExp$coefficients[4]*final$G+lmExp$coefficients[5]*final$CG
 
 #Gtest to compare observed and expected and plot
