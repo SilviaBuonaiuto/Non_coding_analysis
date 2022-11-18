@@ -75,9 +75,5 @@ rbind(sigCds, sigNc) %>% write.table(paste(args[8], "cds_nc.tsv", sep = "."), se
 # make panel with cds and non coding plots
 
 myplot<-grid.arrange(pcds, pnc, nrow = 2)
-ggsave(paste(args[8], "cds_nc_panel", sep = "."), plot = myplot, width = 14, heigh = 9)
-
-
-
-
+ggsave(paste(args[8], "cds_nc_panel.png", sep = "."), plot = myplot, width = 14, heigh = 9)
 
