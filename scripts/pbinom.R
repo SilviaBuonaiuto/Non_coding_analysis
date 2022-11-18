@@ -55,9 +55,9 @@ print(commonProbN)
 window_size = args[7]
 mycol = args[8]
 final %>% mutate(pbinom = pbinom(rareCounts, rareCounts + commonCounts, as.numeric(rareProb))) %>% filter(pbinom != 1) %>% ggplot(aes(start, -log10(1-pbinom))) +geom_point(aes(alpha = 0.3 ), color = mycol ) + theme_bw() + scale_alpha(guide = 'none') + ylim(0,6) + ggtitle(paste(code, window_size, sep = "-"))
-ggsave(paste(args[8], "pbinom.png", sep = "."), width = 14, heigh = 4) 
+ggsave(paste(args[9], "pbinom.png", sep = "."), width = 14, heigh = 4) 
 #create table containing windows with excess of rare variants
-final %>% mutate(pbinom = pbinom(rareCounts, rareCounts + commonCounts, as.numeric(rareProb))) %>% mutate(log1pbinom = -log10(1-pbinom)) %>% filter(pbinom != 1) %>% filter(log1pbinom > 4) %>% write.table(paste(args[8], "tsv", sep = "."), sep = "\t",quote = F, col.names=T, row.names=F)
+final %>% mutate(pbinom = pbinom(rareCounts, rareCounts + commonCounts, as.numeric(rareProb))) %>% mutate(log1pbinom = -log10(1-pbinom)) %>% filter(pbinom != 1) %>% filter(log1pbinom > 4) %>% write.table(paste(args[9], "tsv", sep = "."), sep = "\t",quote = F, col.names=T, row.names=F)
 
 # calculate probabilities of finding windows with excess of rare variants and plot all probabilities (in CDS )
 pcds<-final %>% filter(type == "cds") %>% mutate(pbinom = pbinom(rareCounts, rareCounts + commonCounts, as.numeric(rareProbC))) %>% filter(pbinom != 1) %>% ggplot(aes(start, -log10(1-pbinom))) +geom_point(aes(alpha = 0.3 ), color = mycol ) + theme_bw() + scale_alpha(guide = 'none') + ylim(0,6) + ggtitle(paste(code, window_size, "CDS", sep = "-"))
@@ -70,10 +70,10 @@ pnc<-final %>% filter(type == "non_coding") %>% mutate(pbinom = pbinom(rareCount
 
 sigNc<-final %>% filter(type == "non_coding") %>% mutate(pbinom = pbinom(rareCounts, rareCounts + commonCounts, as.numeric(rareProbN))) %>% mutate(log1pbinom = -log10(1-pbinom)) %>% filter(pbinom != 1) %>% filter(log1pbinom > 4)
 
-rbind(sigCds, sigNc) %>% write.table(paste(args[8], "cds_nc.tsv", sep = "."), sep = "\t",quote = F, col.names=T, row.names=F)
+rbind(sigCds, sigNc) %>% write.table(paste(args[9], "cds_nc.tsv", sep = "."), sep = "\t",quote = F, col.names=T, row.names=F)
 
 # make panel with cds and non coding plots
 
 myplot<-grid.arrange(pcds, pnc, nrow = 2)
-ggsave(paste(args[8], "cds_nc_panel.png", sep = "."), plot = myplot, width = 14, heigh = 9)
+ggsave(paste(args[9], "cds_nc_panel.png", sep = "."), plot = myplot, width = 14, heigh = 9)
 
