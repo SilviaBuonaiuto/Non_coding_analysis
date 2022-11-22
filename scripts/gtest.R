@@ -18,6 +18,7 @@ modExp = lmExp$coefficients[1]+lmExp$coefficients[2]*final$A+lmExp$coefficients[
 #Gtest to compare observed and expected and plot
 #final %>% mutate(normO = (modObs-min(modObs))/(max(modObs)-min(modObs)), normE = (modExp-min(modExp))/(max(modExp)-min(modExp))) %>% rowwise() %>% mutate(gtest = GTest(cbind(normO, normE))$p.value) %>% ggplot(aes(start, -log10(gtest))) + geom_point() + theme_bw() + ylab("-log10(p-value)")
 mycol = args[3]
-final %>% mutate(Exp = modExp) %>% rowwise() %>% mutate(gtest = GTest(cbind(rareCounts, Exp))$p.value) %>% ggplot(aes(start, -log10(gtest))) + geom_point(color = mycol) + theme_bw() + ylab("-log10(p-value)")
+chromosome = final %>% select(chrom) %>% distinct()
+final %>% mutate(Exp = modExp) %>% rowwise() %>% mutate(gtest = GTest(cbind(rareCounts, Exp))$p.value) %>% ggplot(aes(start, -log10(gtest))) + geom_point(color = mycol) + theme_bw() + ylab("-log10(p-value)") + ggtitle(paste(chromosome, window_size, sep = "-"))
 ggsave(paste(args[4], "gtest.png", sep = "."), width = 10, heigh = 4)
 
