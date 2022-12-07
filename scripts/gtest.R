@@ -29,6 +29,6 @@ chromosome = final %>% select(chrom) %>% distinct()
 final %>% mutate(expR = modExpR, expC = modExpC) %>% rowwise() %>% mutate(gtest = GTest(x = c(rareCounts, commonCounts), p = c(expR, expC)/(expR+expC))$p.value, stat = -log10(gtest)) %>% ggplot(aes(start, stat)) + geom_point(color = mycol) + theme_bw() + ylab("-log10(p-value)") + ggtitle(paste(chromosome, window_size, sep = "-"))
 ggsave(paste(args[4], "gtest.png", sep = "."), width = 10, heigh = 4)
 
-df %>% filter(stat > 20) %>% write.table(paste(args[4], "gtest_significant.tsv", sep = "."), sep = "\t", quote = F, col.names = T, row.names = F)
+final %>% mutate(expR = modExpR, expC = modExpC) %>% rowwise() %>% mutate(gtest = GTest(x = c(rareCounts, commonCounts), p = c(expR, expC)/(expR+expC))$p.value, stat = -log10(gtest)) %>% filter(stat > 20) %>% write.table(paste(args[4], "gtest_significant.tsv", sep = "."), sep = "\t", quote = F, col.names = T, row.names = F)
 
 ##### QQplot
