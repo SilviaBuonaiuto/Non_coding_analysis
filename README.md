@@ -93,27 +93,24 @@ python3 fastaAnalysis.py \
 done 
 ```
 
-#### 5. Calculate probability of finding windows with excess of rare variants with binomial distribution and compare observed and expected models (https://github.com/SilviaBuonaiuto/Non_coding_analysis/tree/main/scripts/nonCoding_plots.R)
+#### 5. Per chromosome analysis : calculate probability of finding windows with excess of rare variants with G-test and compare observed and expected models (https://github.com/SilviaBuonaiuto/Non_coding_analysis/tree/main/scripts/gtest_perChromosome.R)
 
 ```
 paste -d'\n' chromosomes.txt colors.txt | \
 while read f1 && read f2; do \
-Rscript pbinom.R \
+Rscript gtest_perChromosome.R \
 $f1.common.count \
 $f1.rare.count \
 hg38.$f1.nucleotides.tsv \
-$f1.complete_table.tsv
+$f1 \ (prefix for output tables and plots)
 window_size (number) \
 $f2 \
-$f1.window_size
 ```
 
-#### 6. Calculate probability of finding windows with excess of rare variants with G test on observed/expected data (https://github.com/SilviaBuonaiuto/Non_coding_analysis/blob/main/scripts/gtest_qqplot.R)
+#### 6. Whole-genome analysis : calculate probability of finding windows with excess of rare variants with G test on observed/expected data (https://github.com/SilviaBuonaiuto/Non_coding_analysis/blob/main/scripts/gtest_wholeGenome.R)
 
 ```
-Rscript gtest_qqplot.R
-all_chr.finalTable.tsv \
-all_chr.finalTable.pVal.tsv \
-all_chr.qqplot.png \
-all_chr.manhattanPlot.png
+Rscript gtest_wholeGenome.R \
+input files path \
+prefix for output table and plots
 ```
